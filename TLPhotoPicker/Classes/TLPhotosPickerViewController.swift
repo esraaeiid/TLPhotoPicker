@@ -1258,9 +1258,8 @@ extension TLPhotosPickerViewController {
     func toggleSelection(for cell: TLPhotoCollectionViewCell, at indexPath: IndexPath) {
         guard let collection = focusedCollection, var asset = collection.getTLAsset(at: indexPath), let phAsset = asset.phAsset else { return }
         
-        cell.popScaleAnim()
-        print("Test")
-        
+//        cell.popScaleAnim()
+                
         if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
         //deselect
             logDelegate?.deselectedPhoto(picker: self, at: indexPath.row)
