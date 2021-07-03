@@ -1259,6 +1259,7 @@ extension TLPhotosPickerViewController {
         guard let collection = focusedCollection, var asset = collection.getTLAsset(at: indexPath), let phAsset = asset.phAsset else { return }
         
         cell.popScaleAnim()
+        print("Test")
         
         if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
         //deselect
