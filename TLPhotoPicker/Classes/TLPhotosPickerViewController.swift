@@ -16,6 +16,7 @@ public protocol TLPhotosPickerViewControllerDelegate: class {
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset])
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool
     func dismissComplete()
+    func photoPickerDidScroll()
     func photoPickerDidCancel()
     func canSelectAsset(phAsset: PHAsset) -> Bool
     func didExceedMaximumNumberOfSelection(picker: TLPhotosPickerViewController)
@@ -714,6 +715,11 @@ extension TLPhotosPickerViewController: UIImagePickerControllerDelegate, UINavig
 
 // MARK: - UICollectionView Scroll Delegate
 extension TLPhotosPickerViewController {
+    
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        delegate?.photoPickerDidScroll()
+    }
+    
     open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
             videoCheck()
