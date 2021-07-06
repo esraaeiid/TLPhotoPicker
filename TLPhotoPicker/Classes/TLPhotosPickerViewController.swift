@@ -16,7 +16,6 @@ public protocol TLPhotosPickerViewControllerDelegate: class {
     func dismissPhotoPicker(withTLPHAssets: [TLPHAsset])
     func shouldDismissPhotoPicker(withTLPHAssets: [TLPHAsset]) -> Bool
     func dismissComplete()
-    func photoPickerDidScroll()
     func photoPickerDidCancel()
     func canSelectAsset(phAsset: PHAsset) -> Bool
     func didExceedMaximumNumberOfSelection(picker: TLPhotosPickerViewController)
@@ -317,11 +316,19 @@ open class TLPhotosPickerViewController: UIViewController {
         }
     }
     
+    
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        appearanceOfCellWhenExceedMaximumNumber()
+    }
+    
+    
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if self.photoLibrary.delegate == nil {
             checkAuthorization()
         }
+        
     }
     
     private func findIndexAndReloadCells(phAsset: PHAsset) {
@@ -365,6 +372,39 @@ open class TLPhotosPickerViewController: UIViewController {
 
 // MARK: - UI & UI Action
 extension TLPhotosPickerViewController {
+    
+    private func appearanceOfCellWhenExceedMaximumNumber(){
+        //change appearance of cell when exceeded max number of selection
+        if selectedAssets.count == 3 {
+            
+            collectionView
+                .visibleCells
+                .filter {
+                    $0 is TLPhotoCollectionViewCell
+                }
+                .forEach {cell in
+                    let photoCell = cell as! TLPhotoCollectionViewCell
+                    if !photoCell.selectedAsset {
+                        photoCell.imageView?.alpha = 0.2
+                    } else {
+                        photoCell.imageView?.alpha = 1
+                        
+                    }
+                }
+        }
+        else {
+            collectionView
+                .visibleCells
+                .filter {
+                    $0 is TLPhotoCollectionViewCell
+                }
+                .forEach { cell in
+                    let photoCell = cell as! TLPhotoCollectionViewCell
+                    photoCell.imageView?.alpha = 1
+        
+            }
+        }
+    }
     
     @objc public func registerNib(nibName: String, bundle: Bundle) {
         self.collectionView.register(UINib(nibName: nibName, bundle: bundle), forCellWithReuseIdentifier: nibName)
@@ -717,7 +757,7 @@ extension TLPhotosPickerViewController: UIImagePickerControllerDelegate, UINavig
 extension TLPhotosPickerViewController {
     
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        delegate?.photoPickerDidScroll()
+        appearanceOfCellWhenExceedMaximumNumber()
     }
     
     open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -1268,7 +1308,7 @@ extension TLPhotosPickerViewController {
                 
         if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
         //deselect
-            cell.selectedAsset = false
+            logDelegate?.deselectedPhoto(picker: self, at: indexPath.row)
             selectedAssets.remove(at: index)
             #if swift(>=4.1)
             selectedAssets = selectedAssets.enumerated().compactMap({ (offset,asset) -> TLPHAsset? in
@@ -1283,7 +1323,7 @@ extension TLPhotosPickerViewController {
                 return asset
             })
             #endif
-            logDelegate?.deselectedPhoto(picker: self, at: indexPath.row)
+            cell.selectedAsset = false
             cell.stopPlay()
             orderUpdateCells()
             if playRequestID?.indexPath == indexPath {
@@ -1291,19 +1331,19 @@ extension TLPhotosPickerViewController {
             }
         } else {
         //select
-            cell.selectedAsset = true
-        
+          
+            logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
             guard !maxCheck(), canSelect(phAsset: phAsset) else { return }
             asset.selectedOrder = selectedAssets.count + 1
             selectedAssets.append(asset)
-            logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
+            cell.selectedAsset = true
             cell.orderLabel?.text = "\(asset.selectedOrder)"
             
             if asset.type != .photo, configure.autoPlay {
                 playVideo(asset: asset, indexPath: indexPath)
             }
         }
-
+        appearanceOfCellWhenExceedMaximumNumber()
     }
 }
 
