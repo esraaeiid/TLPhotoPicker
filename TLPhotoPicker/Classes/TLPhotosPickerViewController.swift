@@ -1268,7 +1268,7 @@ extension TLPhotosPickerViewController {
                 
         if let index = selectedAssets.firstIndex(where: { $0.phAsset == asset.phAsset }) {
         //deselect
-            logDelegate?.deselectedPhoto(picker: self, at: indexPath.row)
+            cell.selectedAsset = false
             selectedAssets.remove(at: index)
             #if swift(>=4.1)
             selectedAssets = selectedAssets.enumerated().compactMap({ (offset,asset) -> TLPHAsset? in
@@ -1283,7 +1283,7 @@ extension TLPhotosPickerViewController {
                 return asset
             })
             #endif
-            cell.selectedAsset = false
+            logDelegate?.deselectedPhoto(picker: self, at: indexPath.row)
             cell.stopPlay()
             orderUpdateCells()
             if playRequestID?.indexPath == indexPath {
