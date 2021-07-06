@@ -12,6 +12,11 @@ import Photos
 
 class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
     
+    func photoPickerDidScroll() {
+        print("DidScroll")
+    }
+    
+    
     var selectedAssets = [TLPHAsset]()
     @IBOutlet var label: UILabel!
     @IBOutlet var imageView: UIImageView!
@@ -24,6 +29,7 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
         }
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 3
+        configure.maxSelectedAssets = 3
         viewController.configure = configure
         viewController.selectedAssets = self.selectedAssets
         viewController.logDelegate = self

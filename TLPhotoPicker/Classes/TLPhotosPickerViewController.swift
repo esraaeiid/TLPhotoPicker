@@ -1291,12 +1291,12 @@ extension TLPhotosPickerViewController {
             }
         } else {
         //select
-            logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
+            cell.selectedAsset = true
+        
             guard !maxCheck(), canSelect(phAsset: phAsset) else { return }
-            
             asset.selectedOrder = selectedAssets.count + 1
             selectedAssets.append(asset)
-            cell.selectedAsset = true
+            logDelegate?.selectedPhoto(picker: self, at: indexPath.row)
             cell.orderLabel?.text = "\(asset.selectedOrder)"
             
             if asset.type != .photo, configure.autoPlay {
