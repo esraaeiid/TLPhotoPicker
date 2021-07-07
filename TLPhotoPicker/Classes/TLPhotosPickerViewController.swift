@@ -78,6 +78,7 @@ public struct TLPhotosPickerConfigure {
     public var mediaType: PHAssetMediaType? = nil
     public var numberOfColumn = 3
     public var singleSelectedMode = false
+    public var setMaxSelection = false
     public var maxSelectedAssets: Int? = nil
     public var fetchOption: PHFetchOptions? = nil
     public var fetchCollectionOption: [FetchCollectionType: PHFetchOptions] = [:]
@@ -147,6 +148,9 @@ open class TLPhotosPickerViewController: UIViewController {
     @IBOutlet open var emptyImageView: UIImageView!
     @IBOutlet open var emptyMessageLabel: UILabel!
     @IBOutlet open var photosButton: UIBarButtonItem!
+    
+    open var shouldAnimateChanges = true
+    private var isScrolling = false
     
     public weak var delegate: TLPhotosPickerViewControllerDelegate? = nil
     public weak var logDelegate: TLPhotosPickerLogDelegate? = nil
@@ -375,33 +379,42 @@ extension TLPhotosPickerViewController {
     
     private func appearanceOfCellWhenExceedMaximumNumber(){
         //change appearance of cell when exceeded max number of selection
-        if selectedAssets.count == 3 {
-            
-            collectionView
-                .visibleCells
-                .filter {
-                    $0 is TLPhotoCollectionViewCell
-                }
-                .forEach {cell in
-                    let photoCell = cell as! TLPhotoCollectionViewCell
-                    if !photoCell.selectedAsset {
-                        photoCell.imageView?.alpha = 0.2
-                    } else {
-                        photoCell.imageView?.alpha = 1
-                        
+        let animationDuration = (shouldAnimateChanges && !isScrolling) ? 0.25: 0
+        if   self.configure.setMaxSelection == true {
+            //will animate only if shouldAnimateChanges is true, and isScrolling is false
+            if selectedAssets.count == 3 {
+                
+                collectionView
+                    .visibleCells
+                    .compactMap{
+                        $0 as? TLPhotoCollectionViewCell
                     }
-                }
-        }
-        else {
-            collectionView
-                .visibleCells
-                .filter {
-                    $0 is TLPhotoCollectionViewCell
-                }
-                .forEach { cell in
-                    let photoCell = cell as! TLPhotoCollectionViewCell
-                    photoCell.imageView?.alpha = 1
-        
+                    .forEach {cell in
+                        let photoCell = cell
+                        if !photoCell.selectedAsset {
+                            UIView.animate(withDuration: animationDuration) {
+                                photoCell.imageView?.alpha = 0.2
+                            }
+                        } else {
+                            UIView.animate(withDuration: animationDuration) {
+                                photoCell.imageView?.alpha = 1
+                            }
+                            
+                        }
+                    }
+            }
+            else {
+                collectionView
+                    .visibleCells
+                    .compactMap{
+                        $0 as? TLPhotoCollectionViewCell
+                    }
+                    .forEach { cell in
+                        let photoCell = cell
+                        UIView.animate(withDuration: animationDuration) {
+                            photoCell.imageView?.alpha = 1
+                        }
+                    }
             }
         }
     }
@@ -757,16 +770,19 @@ extension TLPhotosPickerViewController: UIImagePickerControllerDelegate, UINavig
 extension TLPhotosPickerViewController {
     
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        isScrolling = true
         appearanceOfCellWhenExceedMaximumNumber()
     }
     
     open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        isScrolling = false
         if !decelerate {
             videoCheck()
         }
     }
     
     open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isScrolling = false
         videoCheck()
     }
     
