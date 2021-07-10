@@ -149,7 +149,6 @@ open class TLPhotosPickerViewController: UIViewController {
     @IBOutlet open var emptyMessageLabel: UILabel!
     @IBOutlet open var photosButton: UIBarButtonItem!
     
-    open var shouldAnimateChanges = true
     private var isScrolling = false
     
     public weak var delegate: TLPhotosPickerViewControllerDelegate? = nil
@@ -379,9 +378,9 @@ extension TLPhotosPickerViewController {
     
     private func appearanceOfCellWhenExceedMaximumNumber(){
         //change appearance of cell when exceeded max number of selection
-        let animationDuration = (shouldAnimateChanges && !isScrolling) ? 0.25: 0
+        let animationDuration = (!isScrolling) ? 0.25: 0
         if   self.configure.setMaxSelection == true {
-            //will animate only if shouldAnimateChanges is true, and isScrolling is false
+            //will animate only if isScrolling is false
             if selectedAssets.count == 3 {
                 
                 collectionView

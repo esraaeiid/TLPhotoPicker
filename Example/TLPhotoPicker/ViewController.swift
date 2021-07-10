@@ -140,6 +140,7 @@ class ViewController: UIViewController,TLPhotosPickerViewControllerDelegate {
         // use selected order, fullresolution image
         self.selectedAssets = withTLPHAssets
         getFirstSelectedImage()
+       
         //iCloud or video
 //        getAsyncCopyTemporaryFile()
     }
