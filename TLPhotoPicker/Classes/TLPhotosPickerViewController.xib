@@ -22,6 +22,7 @@
                 <outlet property="emptyMessageLabel" destination="7qj-q4-rHC" id="Bcp-Hu-lEY"/>
                 <outlet property="emptyView" destination="HPm-Vc-F86" id="4FT-XL-9ql"/>
                 <outlet property="indicator" destination="AEv-G6-dRI" id="coA-3n-07e"/>
+                <outlet property="limitedAccessLabel" destination="Wrk-22-mSi" id="7g6-X3-AxG"/>
                 <outlet property="limitedAccessView" destination="e9f-r8-evO" id="gpd-c4-noY"/>
                 <outlet property="manageLimitedAccessButton" destination="Lui-sP-2Cj" id="0bE-ks-l9s"/>
                 <outlet property="navigationBar" destination="X8O-Gg-slz" id="Sp9-g1-r4y"/>
@@ -110,6 +111,12 @@
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e9f-r8-evO">
                     <rect key="frame" x="0.0" y="44" width="375" height="65"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wrk-22-mSi">
+                            <rect key="frame" x="16" y="24.5" width="218" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lui-sP-2Cj">
                             <rect key="frame" x="269" y="17.5" width="90" height="30"/>
                             <constraints>
@@ -127,7 +134,10 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="Lui-sP-2Cj" secondAttribute="trailing" constant="16" id="1Mb-rR-BRQ"/>
                         <constraint firstItem="Lui-sP-2Cj" firstAttribute="centerY" secondItem="e9f-r8-evO" secondAttribute="centerY" id="2yb-MQ-CG3"/>
+                        <constraint firstItem="Wrk-22-mSi" firstAttribute="centerY" secondItem="e9f-r8-evO" secondAttribute="centerY" id="7m9-RD-ZQk"/>
                         <constraint firstAttribute="height" constant="65" id="DC6-xC-CR9"/>
+                        <constraint firstItem="Wrk-22-mSi" firstAttribute="leading" secondItem="e9f-r8-evO" secondAttribute="leading" constant="16" id="FGn-fW-L2q"/>
+                        <constraint firstItem="Lui-sP-2Cj" firstAttribute="leading" secondItem="Wrk-22-mSi" secondAttribute="trailing" constant="35" id="wne-rF-Eax"/>
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4gR-Bn-quP">

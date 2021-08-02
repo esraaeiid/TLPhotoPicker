@@ -59,6 +59,7 @@ public struct TLPhotosPickerConfigure {
     public var emptyMessage = "No albums"
     public var selectMessage = "Select"
     public var deselectMessage = "Deselect"
+    public var limitedAccessLabelMessage = "Deselect"
     public var emptyImage: UIImage? = nil
     public var usedCameraButton = true
     public var defaultToFrontFacingCamera = false
@@ -84,6 +85,8 @@ public struct TLPhotosPickerConfigure {
     public var fetchCollectionOption: [FetchCollectionType: PHFetchOptions] = [:]
     public var selectedColor = UIColor(red: 88/255, green: 144/255, blue: 255/255, alpha: 1.0)
     public var cameraBgColor = UIColor(red: 221/255, green: 223/255, blue: 226/255, alpha: 1)
+    public var limitedAccessButtonColor = UIColor(red: 221/255, green: 223/255, blue: 226/255, alpha: 1)
+    public var limitedAccessLabelColor = UIColor(red: 221/255, green: 223/255, blue: 226/255, alpha: 1)
     public var cameraIcon = TLBundle.podBundleImage(named: "camera")
     public var videoIcon = TLBundle.podBundleImage(named: "video")
     public var placeholderIcon = TLBundle.podBundleImage(named: "insertPhotoMaterial")
@@ -149,9 +152,10 @@ open class TLPhotosPickerViewController: UIViewController {
     @IBOutlet open var emptyMessageLabel: UILabel!
     @IBOutlet open var photosButton: UIBarButtonItem!
     
-    @IBOutlet weak var collectionViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var manageLimitedAccessButton: UIButton!
-    @IBOutlet weak var limitedAccessView: UIView! //set to hidden bydefault in storyboard
+    @IBOutlet open var limitedAccessLabel: UILabel!
+    @IBOutlet open var collectionViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet open var manageLimitedAccessButton: UIButton!
+    @IBOutlet open var limitedAccessView: UIView! //set to hidden bydefault in storyboard
     
     private var isScrolling = false
     
@@ -485,6 +489,15 @@ extension TLPhotosPickerViewController {
             self.allowedLivePhotos = false
         }
         self.customDataSouces?.registerSupplementView(collectionView: self.collectionView)
+        
+        manageLimitedAccessButton.layer.cornerRadius = 5.0
+        manageLimitedAccessButton.layer.masksToBounds = true
+        manageLimitedAccessButton.layer.borderWidth = 1
+        manageLimitedAccessButton.layer.borderColor = configure.limitedAccessButtonColor.cgColor
+        manageLimitedAccessButton.setTitleColor(configure.limitedAccessButtonColor, for: .normal)
+
+        limitedAccessLabel.text = configure.limitedAccessLabelMessage
+        limitedAccessLabel.textColor = configure.limitedAccessLabelColor
     }
     
     private func updatePresentLimitedLibraryButton() {
