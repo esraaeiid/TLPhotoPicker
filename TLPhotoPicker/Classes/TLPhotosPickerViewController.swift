@@ -508,7 +508,7 @@ extension TLPhotosPickerViewController {
     private func updatePresentLimitedLibraryButton() {
         if #available(iOS 14.0, *), self.photoLibrary.limitMode && self.configure.preventAutomaticLimitedAccessAlert {
             //show manage settings
-            self.customNavItem.rightBarButtonItems = [self.doneButton, self.photosButton]
+            self.customNavItem.rightBarButtonItems = [self.doneButton]
             self.collectionViewTopConstraint.constant = 65
             self.limitedAccessView.isHidden = false
         } else {
