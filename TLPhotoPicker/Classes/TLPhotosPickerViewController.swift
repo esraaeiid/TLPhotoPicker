@@ -87,6 +87,7 @@ public struct TLPhotosPickerConfigure {
     public var cameraBgColor = UIColor(red: 221/255, green: 223/255, blue: 226/255, alpha: 1)
     public var limitedAccessButtonColor = UIColor(red: 221/255, green: 223/255, blue: 226/255, alpha: 1)
     public var limitedAccessLabelColor = UIColor(red: 221/255, green: 223/255, blue: 226/255, alpha: 1)
+    public var limitedAccessViewBorderColor = UIColor(red: 221/255, green: 223/255, blue: 226/255, alpha: 1)
     public var cameraIcon = TLBundle.podBundleImage(named: "camera")
     public var videoIcon = TLBundle.podBundleImage(named: "video")
     public var placeholderIcon = TLBundle.podBundleImage(named: "insertPhotoMaterial")
@@ -155,6 +156,8 @@ open class TLPhotosPickerViewController: UIViewController {
     @IBOutlet open var limitedAccessLabel: UILabel!
     @IBOutlet open var collectionViewTopConstraint: NSLayoutConstraint!
     @IBOutlet open var manageLimitedAccessButton: UIButton!
+    @IBOutlet open var topLineForAccessView: UIView!
+    @IBOutlet open var bottomLineForAccessView: UIView!
     @IBOutlet open var limitedAccessView: UIView! //set to hidden bydefault in storyboard
     
     private var isScrolling = false
@@ -498,6 +501,8 @@ extension TLPhotosPickerViewController {
 
         limitedAccessLabel.text = configure.limitedAccessLabelMessage
         limitedAccessLabel.textColor = configure.limitedAccessLabelColor
+        topLineForAccessView.backgroundColor = configure.limitedAccessViewBorderColor
+        bottomLineForAccessView.backgroundColor = configure.limitedAccessViewBorderColor
     }
     
     private func updatePresentLimitedLibraryButton() {

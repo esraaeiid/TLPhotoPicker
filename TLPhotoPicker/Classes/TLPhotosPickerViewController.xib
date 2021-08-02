@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TLPhotosPickerViewController" customModule="TLPhotoPicker">
             <connections>
                 <outlet property="albumPopView" destination="Jcn-hC-Umh" id="c3n-m9-wfd"/>
+                <outlet property="bottomLineForAccessView" destination="Kmi-v6-xPw" id="aDC-Vx-nSB"/>
                 <outlet property="cancelButton" destination="sqJ-Z7-zxj" id="J6u-hz-ePK"/>
                 <outlet property="collectionView" destination="4gR-Bn-quP" id="ZOF-qU-cpd"/>
                 <outlet property="collectionViewTopConstraint" destination="CZx-xl-GLa" id="hyg-YN-xs1"/>
@@ -34,6 +35,7 @@
                 <outlet property="subTitleStackView" destination="kgt-Cn-AXg" id="Vcc-hP-iqe"/>
                 <outlet property="titleLabel" destination="xuG-bc-Oq9" id="2o0-aN-au6"/>
                 <outlet property="titleView" destination="VAz-Py-dsa" id="deY-US-9Jh"/>
+                <outlet property="topLineForAccessView" destination="0CV-s0-I5h" id="snS-6y-d6e"/>
                 <outlet property="view" destination="Zyk-dI-msE" id="dxK-gh-unF"/>
             </connections>
         </placeholder>
@@ -108,9 +110,23 @@
                         </navigationItem>
                     </items>
                 </navigationBar>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e9f-r8-evO">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e9f-r8-evO" userLabel="limitedAccessView">
                     <rect key="frame" x="0.0" y="44" width="375" height="65"/>
                     <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kmi-v6-xPw" userLabel="bottomLineView">
+                            <rect key="frame" x="0.0" y="64" width="375" height="1"/>
+                            <color key="backgroundColor" systemColor="systemGray4Color"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="fgH-QY-sLD"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0CV-s0-I5h" userLabel="topLineView">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                            <color key="backgroundColor" systemColor="systemGray4Color"/>
+                            <constraints>
+                                <constraint firstAttribute="height" id="LSs-ax-fBc"/>
+                            </constraints>
+                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wrk-22-mSi">
                             <rect key="frame" x="16" y="24.5" width="218" height="16"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -134,9 +150,15 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="Lui-sP-2Cj" secondAttribute="trailing" constant="16" id="1Mb-rR-BRQ"/>
                         <constraint firstItem="Lui-sP-2Cj" firstAttribute="centerY" secondItem="e9f-r8-evO" secondAttribute="centerY" id="2yb-MQ-CG3"/>
+                        <constraint firstAttribute="trailing" secondItem="0CV-s0-I5h" secondAttribute="trailing" id="5ra-Mr-V9h"/>
+                        <constraint firstItem="Kmi-v6-xPw" firstAttribute="leading" secondItem="e9f-r8-evO" secondAttribute="leading" id="6p3-rH-D10"/>
                         <constraint firstItem="Wrk-22-mSi" firstAttribute="centerY" secondItem="e9f-r8-evO" secondAttribute="centerY" id="7m9-RD-ZQk"/>
+                        <constraint firstItem="0CV-s0-I5h" firstAttribute="top" secondItem="e9f-r8-evO" secondAttribute="top" id="Auj-x7-C3i"/>
                         <constraint firstAttribute="height" constant="65" id="DC6-xC-CR9"/>
                         <constraint firstItem="Wrk-22-mSi" firstAttribute="leading" secondItem="e9f-r8-evO" secondAttribute="leading" constant="16" id="FGn-fW-L2q"/>
+                        <constraint firstItem="0CV-s0-I5h" firstAttribute="leading" secondItem="e9f-r8-evO" secondAttribute="leading" id="TAH-LP-9mE"/>
+                        <constraint firstAttribute="trailing" secondItem="Kmi-v6-xPw" secondAttribute="trailing" id="ipj-tA-gCZ"/>
+                        <constraint firstAttribute="bottom" secondItem="Kmi-v6-xPw" secondAttribute="bottom" id="uhk-Zq-yZ3"/>
                         <constraint firstItem="Lui-sP-2Cj" firstAttribute="leading" secondItem="Wrk-22-mSi" secondAttribute="trailing" constant="35" id="wne-rF-Eax"/>
                     </constraints>
                 </view>
@@ -270,6 +292,9 @@
         <image name="pop_arrow.png" width="41" height="20"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
