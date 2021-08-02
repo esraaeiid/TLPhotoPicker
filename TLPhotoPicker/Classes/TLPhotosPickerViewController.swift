@@ -149,6 +149,10 @@ open class TLPhotosPickerViewController: UIViewController {
     @IBOutlet open var emptyMessageLabel: UILabel!
     @IBOutlet open var photosButton: UIBarButtonItem!
     
+    @IBOutlet weak var collectionViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var manageLimitedAccessButton: UIButton!
+    @IBOutlet weak var limitedAccessView: UIView! //set to hidden bydefault in storyboard
+    
     private var isScrolling = false
     
     public weak var delegate: TLPhotosPickerViewControllerDelegate? = nil
@@ -485,9 +489,14 @@ extension TLPhotosPickerViewController {
     
     private func updatePresentLimitedLibraryButton() {
         if #available(iOS 14.0, *), self.photoLibrary.limitMode && self.configure.preventAutomaticLimitedAccessAlert {
+            //show manage settings
             self.customNavItem.rightBarButtonItems = [self.doneButton, self.photosButton]
+            self.collectionViewTopConstraint.constant = 65
+            self.limitedAccessView.isHidden = false
         } else {
             self.customNavItem.rightBarButtonItems = [self.doneButton]
+            self.collectionViewTopConstraint.constant = 0
+            self.limitedAccessView.isHidden = true
         }
     }
     
@@ -581,6 +590,27 @@ extension TLPhotosPickerViewController {
         self.stopPlay()
         self.dismiss(done: true)
     }
+    
+    @IBAction open func manageLimitedAccessButtonTap() {
+       openAppSettings()
+    }
+    
+    func openAppSettings() {
+        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+             return
+         }
+        if UIApplication.shared.canOpenURL(settingsUrl) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    print("Settings opened: \(success)")
+                })
+            } else {
+                // Fallback on earlier versions
+                print("No Access")
+            }
+        }
+    }
+    
     
     @IBAction open func limitButtonTap() {
         if #available(iOS 14.0, *) {
