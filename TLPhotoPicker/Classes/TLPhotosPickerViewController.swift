@@ -392,7 +392,7 @@ extension TLPhotosPickerViewController {
         let animationDuration = (!isScrolling) ? 0.25: 0
         if   self.configure.setMaxSelection == true {
             //will animate only if isScrolling is false
-            if selectedAssets.count == 3 {
+            if selectedAssets.count == configure.maxSelectedAssets {
                 
                 collectionView
                     .visibleCells
